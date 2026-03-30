@@ -1,12 +1,13 @@
 #include "keycodes.h"
 #include QMK_KEYBOARD_H
 
-enum planck_layers { _QWERTY, _GALLIUM, _SYM, _EXT, _ADJUST, _SETTINGS };
+enum planck_layers { _QWERTY, _GALLIUM, _SYM, _EXT, _ADJUST, _SETTINGS, _MOUSE };
 
 enum planck_keycodes { TOGG_LO = SAFE_RANGE, VIM_SAVE };
 
 #define SYM MO(_SYM)
 #define EXT LT(_EXT, KC_ESC)
+#define MOUSE TG(_MOUSE)
 #define SETT MO(_SETTINGS)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -73,9 +74,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Symbol
  *   Gui    Alt    Ctl    Sft            (homerow)            Gui   Alt     Ctl    Sft
  * ,-----------------------------------------------------------------------------------.
- * |  *   |  -   |   <  |  >   |  |   ||     |     ||  ^   |  {   |  }   |  $   | Bksp |
+ * |  *   |  -   |   <  |  >   |  |   ||     |     ||  ^   |  {   |  }   |  $   |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  !   |  _   |  /   |[ =  ]|  &   ||     |     ||  #   |[ (  ]|  )   |  ?   |Enter |
+ * |  !   |  _   |  /   |[ =  ]|  &   ||     |     ||  #   |[ (  ]|  )   |  ?   |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |  ~   |  +   |  [   |  ]   |  %   ||     |     ||  @   |  `   |  \   |      |  Del |
  * |======+======+======+======+======+======+======+======+======+======+======+======|
@@ -93,8 +94,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MOD_ENT RGUI_T(KC_ENT)
 
     [_SYM] = LAYOUT_planck_grid(
-        KC_ASTR, KC_MINS, KC_LT, KC_GT, KC_PIPE, _______, _______, KC_CIRC, KC_LCBR, KC_RCBR, KC_DLR, KC_BSPC,
-        MOD_EXLM, MOD_UNS, MOD_SLS, MOD_EQL, KC_AMPR, _______, _______, KC_HASH, MOD_LPN, MOD_RPN, MOD_QUES, MOD_ENT,
+        KC_ASTR, KC_MINS, KC_LT, KC_GT, KC_PIPE, _______, _______, KC_CIRC, KC_LCBR, KC_RCBR, KC_DLR, XXXXXXX,
+        MOD_EXLM, MOD_UNS, MOD_SLS, MOD_EQL, KC_AMPR, _______, _______, KC_HASH, MOD_LPN, MOD_RPN, MOD_QUES, XXXXXXX,
         KC_TILD, KC_PLUS, KC_LBRC, KC_RBRC, KC_PERC, _______, _______, KC_AT, KC_GRV, KC_BSLS, XXXXXXX, KC_DEL,
         _______, _______, _______, _______, _______, _______, _______, KC_ENT, _______, _______, _______, _______
     ),
@@ -103,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |  Tab |  7   |  8   |  9   |Vim Sv||     |     || Pgu  | PgD  | Home | End  | Ins  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  Esc |  4   |  5   |[ 6  ]|  0   ||     |     ||  <-  |  V   |  ^   | ->   |      |
+ * |      |  4   |  5   |[ 6  ]|  0   ||     |     ||  <-  |  V   |  ^   | ->   |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |  1   |  2   |  3   |      ||     |     || PrSc |[Shif]| Ctrl |  Al  | Gui  |
  * |======+======+======+======+======+------+------+======+======+======+======+======|
@@ -117,27 +118,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_EXT] = LAYOUT_planck_grid(
         KC_TAB, KC_7, KC_8, KC_9, VIM_SAVE, _______, _______, KC_PSCR, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI,
-        MOD_ESC, MOD_4, MOD_5, MOD_6, KC_0, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, XXXXXXX,
+    KC_LGUI, MOD_4, MOD_5, MOD_6, KC_0, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, XXXXXXX,
         XXXXXXX, KC_1, KC_2, KC_3, XXXXXXX, _______, _______, KC_PGUP, KC_PGDN, KC_HOME, KC_END, KC_INS,
         _______, _______, _______, _______, KC_BSPC, _______, _______, _______, _______, _______, _______, _______
     ),
 
 /* Adjust
 * ,-----------------------------------------------------------------------------------.
-* | CapT |ToggLO|      |PrtSc |      ||     |     || F1   | F2   | F3   | F4   | Ctrl |
+* | Ctrl | F1   | F2   | F3   | F4   ||     |     || Mouse|PrtSc | CapT |      |      |
 * |------+------+------+------+------+------+------+------+------+------|------|------|
-* | M<-  | Mv   | M^   | M->  |      ||     |     || F5   |[F6  ]| F7   | F8   | Alt  |
+* | Alt  | F5   | F6   |[F7  ]| F8   ||     |     ||      |      |      |      |      |
 * |------+------+------+------+------+------+------+------+------+------+------+------|
-* |      |Reset |Debug | ML   | MR   ||     |     || F9   | F10  | F11  | F12  | Gui  |
+* | Gui  | F9   | F10  | F11  | F12  ||     |     ||      |Reset |Debug |TogglO|      |
 * |======+======+======+======+======+------+------+======+======+======+======+======|
 * |      |      |      |      |      |<HOLD>|<HOLD>|      |      |      |      |      |
 * `-----------------------------------------------------------------------------------'
 */
 
     [_ADJUST] = LAYOUT_planck_grid(
-        CW_TOGG, TOGG_LO, XXXXXXX, KC_PSCR, XXXXXXX, _______, _______, KC_F1, KC_F2, KC_F3, KC_F4, OS_RCTL,
-        MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, XXXXXXX, _______, _______, KC_F5, KC_F6, KC_F7, KC_F8, OS_RALT,
-        XXXXXXX, QK_BOOT, DB_TOGG, MS_BTN1, MS_BTN2, _______, _______, KC_F9, KC_F10, KC_F11, KC_F12, OS_RGUI,
+        OS_LCTL, KC_F1, KC_F2, KC_F3, KC_F4, _______, _______, MOUSE, KC_PSCR, CW_TOGG, XXXXXXX, XXXXXXX,
+        OS_LALT, KC_F5, KC_F6, KC_F7, KC_F8, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        OS_LGUI, KC_F9, KC_F10, KC_F11, KC_F12, _______, _______, XXXXXXX, QK_BOOT, DB_TOGG, TOGG_LO, XXXXXXX,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -158,7 +159,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         UG_VALU, UG_SATU, UG_HUEU, DT_DOWN, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
         UG_VALD, UG_SATD, UG_HUED, DT_PRNT, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    )
+    ),
+
+/* Mouse
+* ,-----------------------------------------------------------------------------------.
+* |      |      |      |      |      ||     |     ||Mouse |      |      |      |      |
+* |------+------+------+------+------+------+------+------+------+------|------|------|
+* |      |      |      |      |      ||     |     ||MsLeft|MsDown|MsUp  |MsRght|      |
+* |------+------+------+------+------+------+------+------+------+------+------+------|
+* |      |      |      |      |      ||     |     ||      |      |      |      |      |
+* |======+======+======+======+======+------+------+======+======+======+======+======|
+* |      |      |      |      |      | Ms1  | Ms2  |      |      |      |      |      |
+* `-----------------------------------------------------------------------------------'
+*/
+
+    [_MOUSE] = LAYOUT_planck_grid(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, MOUSE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        _______, _______, _______, _______, _______, MS_BTN1, MS_BTN2, _______, _______, _______, _______, _______
+    ),
+
 
 };
 
