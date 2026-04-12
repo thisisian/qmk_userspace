@@ -1,1 +1,2 @@
+#define STARTUP_SONG SONG (NO_SOUND)
 #define TAPPING_TERM 150
