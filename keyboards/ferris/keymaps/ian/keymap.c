@@ -1,3 +1,4 @@
+#include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 #include "bit-c_led.h"
 
@@ -8,9 +9,9 @@ void matrix_init_user(void) {
   //debug_mouse=true;
 }
 
-enum planck_layers { _QWERTY, _GALLIUM, _SYM, _EXT, _ADJUST, _MOUSE };
+enum layers { _QWERTY, _GALLIUM, _SYM, _EXT, _ADJUST, _MOUSE };
 
-enum planck_keycodes { TOGG_LO = SAFE_RANGE, VIM_SAVE };
+enum keycodes { TOGG_LO = SAFE_RANGE, VIM_SAVE };
 
 #define SYM MO(_SYM)
 #define EXT LT(_EXT, KC_ESC)
@@ -20,11 +21,11 @@ enum planck_keycodes { TOGG_LO = SAFE_RANGE, VIM_SAVE };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
- *   Gui    Alt    Ctl    Sft
  * ,----------------------------------.             ,----------------------------------.
  * |   Q  |   W  |   E  |   R  |   T  |             |   Y  |   U  |   I  |   O  |   P  |
  * |------+------+------+------+------+             +------+------+------+------+------|
  * |   A  |   S  |   D  |   F  |   G  |             |   H  |   J  |   K  |   L  |   '  |
+ * |(Gui) |(Alt) |(Ctl) |(Shft)|      |             |      |(Shft)|(Ctl) |(Alt) |(Gui) |
  * |------+------+------+------+------+             +------+------+------+------+------|
  * |   Z  |   X  |   C  |   V  |   B  |             |   N  |   M  |   ,  |   .  |   ;  |
  * `------+------+------+------+------+             +------+------+------+------+------'
@@ -49,11 +50,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                          SYM, KC_LSFT, KC_SPC,  EXT),
 
 /* Gallium
- *   Gui    Alt    Ctl    Sft            (homerow)            Gui   Alt     Ctl    Sft
  * ,----------------------------------.             ,----------------------------------.
  * |   B  |   L  |   D  |   C  |   V  |             |   J  |   Y  |   O  |   U  |   ,  |
  * |------+------+------+------+------+             +------+------+------+------+------|
  * |   N  |   R  |   T  |   S  |   G  |             |   P  |   H  |   A  |   E  |   I  |
+ * |(Gui) |(Alt) |(Ctl) |(Shft)|      |             |      |(Shft)|(Ctl) |(Alt) |(Gui) |
  * |------+------+------+------+------+             +------+------+------+------+------|
  * |   X  |   Q  |   M  |   W  |   Z  |             |   K  |   F  |  '   |   ;  |   .  |
  * `------+------+------+------+------+             +------+------+------+------+------'
@@ -79,13 +80,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 /* Symbol
- *   Gui    Alt    Ctl    Sft            (homerow)            Gui   Alt     Ctl    Sft
  * ,----------------------------------.             ,----------------------------------.
- * |  *   |  -   |   <  |  >   |  |   |             |  ^   |  {   |  }   |  $   |      |
+ * |  *   |  -   |   <  |  >   |  |   |             |  ^   |  {   |  }   |  $   | Del  |
  * |------+------+------+------+------+             +------+------+------+------+------|
- * |  !   |  _   |  /   |[ =  ]|  &   |             |  #   |[ (  ]|  )   |  ?   |      |
+ * |  !   |  _   |  /   |  =   |  &   |             |  #   |  (   |  )   |  ?   |      |
+ * |(Gui) |(Alt) |(Ctl) |(Shft)|      |             |      |(Shft)|(Ctl) |(Alt) |(Gui) |
  * |------+------+------+------+------+             +------+------+------+------+------|
- * |  ~   |  +   |  [   |  ]   |  %   |             |  @   |  `   |  \   |      |  Del |
+ * |  ~   |  +   |  [   |  ]   |  %   |             |  @   |  `   |  \   |      |      |
  * `------+------+------+------+------+             +------+------+------+------+------'
  *                      |<HOLD>|      |             |Enter |      |
  *                      `-------------'             `-------------'
@@ -101,20 +102,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MOD_ENT RGUI_T(KC_ENT)
 
     [_SYM] = LAYOUT(
-        KC_ASTR, KC_MINS, KC_LT, KC_GT, KC_PIPE,                   KC_CIRC, KC_LCBR, KC_RCBR, KC_DLR, XXXXXXX,
+        KC_ASTR, KC_MINS, KC_LT, KC_GT, KC_PIPE,                   KC_CIRC, KC_LCBR, KC_RCBR, KC_DLR, KC_DEL,
         MOD_EXLM, MOD_UNS, MOD_SLS, MOD_EQL, KC_AMPR,                   KC_HASH, MOD_LPN, MOD_RPN, MOD_QUES, XXXXXXX,
-        KC_TILD, KC_PLUS, KC_LBRC, KC_RBRC, KC_PERC,                   KC_AT, KC_GRV, KC_BSLS, XXXXXXX, KC_DEL,
+        KC_TILD, KC_PLUS, KC_LBRC, KC_RBRC, KC_PERC,                   KC_AT, KC_GRV, KC_BSLS, XXXXXXX, XXXXXXX,
                                             _______, _______, KC_ENT, _______
     ),
 
 /* Ext
  * ,----------------------------------.             ,----------------------------------.
- * |  *   |  -   |   <  |  >   |  |   |             |  ^   |  {   |  }   |  $   |      |
- * |  Tab |  7   |  8   |  9   |Vim Sv|             | End  | PgU  | PgD  | Home | Ins  |
+ * |  Tab |  7   |  8   |  9   |Vim Sv|             | End  | PgD  | PgU  | Home | Ins  |
  * |------+------+------+------+------+             +------+------+------+------+------|
- * |      |  4   |  5   |[ 6  ]|  0   |             |  <-  |  V   |  ^   | ->   |      |
+ * |      |  4   |  5   |  6   |  0   |             |  <-  |  V   |  ^   | ->   |      |
+ * |(Gui) |(Alt) |(Ctl) |(Shft)|      |             |      |      |      |      |      |
  * |------+------+------+------+------+             +------+------+------+------+------|
- * |      |  1   |  2   |  3   |      |             | Mouse|[Shif]| Ctrl |  Al  | Gui  |
+ * |      |  1   |  2   |  3   |      |             | Mouse| Shft | Ctrl |  Al  | Gui  |
  * `------+------+------+------+------+             +------+------+------+------+------'
  *                      |      |BkSp  |             |      |<Hold>|
  *                      `-------------'             `-------------'
@@ -125,51 +126,55 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MOD_6 LSFT_T(KC_6)
 
     [_EXT] = LAYOUT(
-        KC_TAB, KC_7, KC_8, KC_9, VIM_SAVE,                   KC_END, KC_PGUP, KC_PGDN, KC_HOME, KC_INS,
+        KC_TAB, KC_7, KC_8, KC_9, VIM_SAVE,                   KC_END, KC_PGDN, KC_PGUP, KC_HOME, KC_INS,
         KC_LGUI, MOD_4, MOD_5, MOD_6, KC_0,                   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, XXXXXXX,
         XXXXXXX, KC_1, KC_2, KC_3, XXXXXXX,                   MOUSE, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI,
                                             _______, KC_BSPC, _______, _______
     ),
 
+
 /* Adjust
-* ,----------------------------------.             ,----------------------------------.
-* | Ctrl | F1   | F2   | F3   | F4   |             | Mouse|PrtSc | CapT |      |      |
-* |------+------+------+------+------+             +------+------+------|------|------|
-* | Alt  | F5   | F6   |[F7  ]| F8   |             |      |      |      |      |      |
-* |------+------+------+------+------+             +------+------+------+------+------|
-* | Gui  | F9   | F10  | F11  | F12  |             |      |Reset |Debug |TogglO|      |
-* `------+------+------+------+------+             +------+------+------+------+------'
-*                      |<Hold>|      |             |      |<Hold>|
-*                      `-------------'             `-------------'
-*/
+ * ,----------------------------------.             ,----------------------------------.
+ * |      | F7   | F8   | F9   | F10  |             |PrtSc | CapT |      |      |      |
+ * |------+------+------+------+------+             +------+------+------|------|------|
+ * |      | F4   | F5   | F6   | F11  |             |      | Shft | Ctl  | Alt  | Gui  |
+ * |(Gui) |(Alt) |(Ctl) |(Shft)|      |             |      |      |      |      |      |
+ * |------+------+------+------+------+             +------+------+------+------+------|
+ * |      | F1   | F2   | F3   | F12  |             |      |      |ToggLO|Debug |Reset |
+ * `------+------+------+------+------+             +------+------+------+------+------'
+ *                      |<Hold>|      |             |      |<Hold>|
+ *                      `-------------'             `-------------'
+ */
+
+#define MOD_F4 LALT_T(KC_F4)
+#define MOD_F5 LCTL_T(KC_F5)
+#define MOD_F6 LSFT_T(KC_F6)
 
     [_ADJUST] = LAYOUT(
-        OS_LCTL, KC_F1, KC_F2, KC_F3, KC_F4,                   MOUSE, KC_PSCR, CW_TOGG, XXXXXXX, XXXXXXX,
-        OS_LALT, KC_F5, KC_F6, KC_F7, KC_F8,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        OS_LGUI, KC_F9, KC_F10, KC_F11, KC_F12,                   XXXXXXX, QK_BOOT, DB_TOGG, TOGG_LO, XXXXXXX,
-                                            _______, _______, _______, _______
+        XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10,                   KC_PSCR, CW_TOGG, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_LGUI, MOD_F4, MOD_F5, MOD_F6, KC_F11,                   XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI,
+        XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12,                   XXXXXXX, XXXXXXX, TOGG_LO, DB_TOGG, QK_BOOT,
+                          _______, _______,                   _______, _______
     ),
 
 /* Mouse
-* ,----------------------------------.             ,----------------------------------.
-* |      |      |      |      |      |             |Mouse |MsAcc1|MsAcc2|MsAcc3|      |
-* |------+------+------+------+------+             +------+------+------|------|------|
-* |      |      |      |      |      |             |MsLeft|MsDown|MsUp  |MsRght|      |
-* |------+------+------+------+------+             +------+------+------+------+------|
-* |      |      |      |      |      |             |MsWLft|MsWDwn|MsWUp |MsWRit|      |
-* `------+------+------+------+------+             +------+------+------+------+------'
-*                      |      |      |             | Ms1  | Ms2  |
-*                      `-------------'             `-------------'
-*/
+ * ,----------------------------------.             ,----------------------------------.
+ * |      |      |      |      |      |             |MsWLft|MsWDwn|MsWUp |MsWRit|      |
+ * |------+------+------+------+------+             +------+------+------|------|------|
+ * | Gui  | Alt  | Ctl  | Shft |      |             |MsLeft|MsDown|MsUp  |MsRght|      |
+ * |------+------+------+------+------+             +------+------+------+------+------|
+ * |      |      |      |      |      |             |Mouse |MsAcc1|MsAcc2|MsAcc3|      |
+ * `------+------+------+------+------+             +------+------+------+------+------'
+ *                      |Mouse |Mouse |             | Ms1  | Ms2  |
+ *                      `-------------'             `-------------'
+ */
 
     [_MOUSE] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MOUSE, MS_ACL0, MS_ACL1, MS_ACL2, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR, XXXXXXX,
-                                            _______, _______, MS_BTN1, MS_BTN2
-    ),
-
-
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MOUSE, MS_ACL0, MS_ACL1, MS_ACL2, XXXXXXX,
+                                            MOUSE, MOUSE, MS_BTN1, MS_BTN2
+    )
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {

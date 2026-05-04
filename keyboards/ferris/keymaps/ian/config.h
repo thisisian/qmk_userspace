@@ -17,7 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#define MOUSEKEY_TIME_TO_MAX 40
 #define DEBUG_MATRIX_SCAN_RATE
+#define TAPPING_TERM 200
 
 // Underglow configuration
 #ifdef RGBLIGHT_ENABLE
